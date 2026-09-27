@@ -1,0 +1,47 @@
+# ============================================
+# AIRFLOW STATSD EXPORTER MAPPINGS
+# ============================================
+mappings:
+  # Airflow DAG run duration
+  - match: "airflow.dag.*.*.duration"
+    name: "airflow_dag_run_duration_seconds"
+    labels:
+      dag_id: "$1"
+      run_id: "$2"
+
+  # Airflow Task instance duration
+  - match: "airflow.dag.*.*.*.duration"
+    name: "airflow_task_instance_duration_seconds"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      run_id: "$3"
+
+  # Airflow DAG runs success / failure
+  - match: "airflow.dag_processing.last_duration.*"
+    name: "airflow_dag_processing_last_duration_seconds"
+    labels:
+      dag_file: "$1"
+
+  # Airflow task status
+  - match: "airflow.dag.*.*.status.*"
+    name: "airflow_task_status_count"
+    labels:
+      dag_id: "$1"
+      task_id: "$2"
+      status: "$3"
+
+  # Airflow scheduler heartbeat
+  - match: "airflow.scheduler.heartbeat"
+    name: "airflow_scheduler_heartbeat_total"
+
+  # Airflow DAG run total
+  - match: "airflow.dagrun.duration.success.*"
+    name: "airflow_dagrun_duration_success_seconds"
+    labels:
+      dag_id: "$1"
+
+  - match: "airflow.dagrun.duration.failed.*"
+    name: "airflow_dagrun_duration_failed_seconds"
+    labels:
+      dag_id: "$1"
